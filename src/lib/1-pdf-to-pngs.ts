@@ -1,14 +1,13 @@
 import createMuPdf from "mupdf-js";
 
-export const fn = async (file: File): Promise<string[]> => {
+export const fn = async (file: File, quality: number): Promise<string[]> => {
   // Initialise mupdf and convert to Uint8Array
   const mupdf = await createMuPdf();
   const buf = await file.arrayBuffer();
   const arrayBuf = new Uint8Array(buf);
   const doc = mupdf.load(arrayBuf);
 
-  // TODO: figure out which resolution to use
-  const resolution = 150;
+  const resolution = quality;
   const num_pages = mupdf.countPages(doc);
 
   // Convert it to an array of PNGs

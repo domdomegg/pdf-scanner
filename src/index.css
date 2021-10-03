@@ -6,3 +6,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.App {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 2rem);
+}
+
+.App embed {
+  flex: 1
+}

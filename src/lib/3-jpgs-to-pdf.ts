@@ -4,8 +4,9 @@ import PDFDocument from 'pdfkit';
 import Helvetica from '!!raw-loader!pdfkit/js/data/Helvetica.afm'
 import blobStream from 'blob-stream';
 import fs from 'fs';
+import { Image } from '.';
 
-export const fn = async (jpgs: string[]): Promise<string> => {
+export const fn = async (jpgs: Image[]): Promise<string> => {
   fs.writeFileSync('data/Helvetica.afm', Helvetica)
   const doc = new PDFDocument({ autoFirstPage: false });
 
@@ -16,8 +17,8 @@ export const fn = async (jpgs: string[]): Promise<string> => {
   for (const jpg of jpgs) {
     // TODO: handle non a4 pages
     doc
-      .addPage({ margin: 0 })
-      .image(jpg, 0, 0, { width: 595.28, height: 841.89 })
+      .addPage({ margin: 0, size: [jpg.width, jpg.height] })
+      .image(jpg.base64, 0, 0, { width: jpg.width, height: jpg.height })
   }
   
   doc.end()
