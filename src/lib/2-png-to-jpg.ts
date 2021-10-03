@@ -5,8 +5,7 @@ export const fn = async (png: string): Promise<Image> => {
   const image = await Jimp.read(png);
   const originalSize = { width: image.getWidth(), height: image.getHeight() }
 
-  const [white, black, ...specks] = await Promise.all([
-    await Jimp.read('/white.jpg'),
+  const [black, ...specks] = await Promise.all([
     await Jimp.read('/black.jpg'),
     await Jimp.read('/speck_1.jpg'),
     await Jimp.read('/speck_2.jpg'),
@@ -17,10 +16,34 @@ export const fn = async (png: string): Promise<Image> => {
     await Jimp.read('/speck_7.jpg'),
     await Jimp.read('/speck_8.jpg'),
   ]);
-  white.resize(originalSize.width, originalSize.height)
   black.resize(originalSize.width, originalSize.height)
 
-  image.greyscale();
+  // image.color([ { apply: 'saturate' as any, params: [-30] }])
+  // image.greyscale();
+
+  const mask = image.clone()
+  mask
+    .grayscale()
+    .scanQuiet(0, 0, mask.bitmap.width, mask.bitmap.height, (x, y, idx) => {
+      const value = mask.bitmap.data[idx] < 240 ? 0 : 255;
+
+      mask.bitmap.data[idx] = value;
+      mask.bitmap.data[idx + 1] = value;
+      mask.bitmap.data[idx + 2] = value;
+    })
+    .convolution([
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1],
+    // @ts-ignore
+    ], Jimp.EDGE_EXTEND);
+
+  black.mask(mask, 0, 0)
+  image.composite(black, 0, 0, {
+    mode: Jimp.BLEND_ADD,
+    opacityDest: 1,
+    opacitySource: 1,
+  })
   const speck_count = Math.floor(Math.random()*specks.length);
   const speck_offset = Math.floor(Math.random()*specks.length);
   for(let i = 0; i < speck_count; i++){
@@ -32,19 +55,9 @@ export const fn = async (png: string): Promise<Image> => {
       opacitySource: 0.9,
     })
   }
-  image.composite(black, 0, 0, {
-    mode: Jimp.BLEND_ADD,
-    opacityDest: 1,
-    opacitySource: 1,
-  })
-  image.composite(white, 0, 0, {
-    mode: Jimp.BLEND_MULTIPLY,
-    opacityDest: 1,
-    opacitySource: 0.1,
-  })
   image.contrast(0.08)
 
-  image.background(0xaaaaaaff)
+  image.background(0xffffffff)
   image.rotate((Math.random() * 2) - 1);
   image.contain(originalSize.width, originalSize.height);
 
