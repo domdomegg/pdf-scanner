@@ -2,9 +2,9 @@ import Jimp from 'jimp/es';
 import { Image } from '.';
 
 export const fn = async (png: string): Promise<Image> => {
+  // Load bitmap resources
   const image = await Jimp.read(png);
   const originalSize = { width: image.getWidth(), height: image.getHeight() }
-
   const [black, ...specks] = await Promise.all([
     await Jimp.read('/black.jpg'),
     await Jimp.read('/speck_1.jpg'),
@@ -16,11 +16,11 @@ export const fn = async (png: string): Promise<Image> => {
     await Jimp.read('/speck_7.jpg'),
     await Jimp.read('/speck_8.jpg'),
   ]);
-  black.resize(originalSize.width, originalSize.height)
 
   // image.color([ { apply: 'saturate' as any, params: [-30] }])
-  // image.greyscale();
+  image.greyscale();
 
+  // Add random white dots (to break up text/lines etc. on white backgrounds)
   const mask = image.clone()
   mask
     .grayscale()
@@ -37,13 +37,15 @@ export const fn = async (png: string): Promise<Image> => {
       [1, 1, 1],
     // @ts-ignore
     ], Jimp.EDGE_EXTEND);
-
+  black.resize(originalSize.width, originalSize.height)
   black.mask(mask, 0, 0)
   image.composite(black, 0, 0, {
     mode: Jimp.BLEND_ADD,
     opacityDest: 1,
     opacitySource: 1,
   })
+
+  // Add random black specks
   const speck_count = Math.floor(Math.random()*specks.length);
   const speck_offset = Math.floor(Math.random()*specks.length);
   for(let i = 0; i < speck_count; i++){
@@ -57,9 +59,18 @@ export const fn = async (png: string): Promise<Image> => {
   }
   image.contrast(0.08)
 
+  // Rotation and border
   image.background(0xffffffff)
   image.rotate((Math.random() * 2) - 1);
   image.contain(originalSize.width, originalSize.height);
+
+  // Noise
+  image.scanQuiet(0, 0, image.bitmap.width, image.bitmap.height, (x, y, idx) => {
+    const skew = Math.floor(Math.random()*20) - 10
+    image.bitmap.data[idx] = Math.min(Math.max(image.bitmap.data[idx] + skew, 0), 255);
+    image.bitmap.data[idx + 1] = Math.min(Math.max(image.bitmap.data[idx + 1] + skew, 0), 255);
+    image.bitmap.data[idx + 2] = Math.min(Math.max(image.bitmap.data[idx + 2] + skew, 0), 255);
+  })
 
   return { base64: await image.getBase64Async(Jimp.MIME_JPEG), width: image.getWidth(), height: image.getHeight() };
 }
