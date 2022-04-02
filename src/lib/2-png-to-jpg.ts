@@ -35,7 +35,7 @@ export const fn = async (png: string): Promise<Image> => {
       [1, 1, 1],
       [1, 1, 1],
       [1, 1, 1],
-    // @ts-ignore
+      // @ts-ignore
     ], Jimp.EDGE_EXTEND);
   black.resize(originalSize.width, originalSize.height)
   black.mask(mask, 0, 0)
@@ -46,11 +46,11 @@ export const fn = async (png: string): Promise<Image> => {
   })
 
   // Add random black specks
-  const speck_count = Math.floor(Math.random()*specks.length);
-  const speck_offset = Math.floor(Math.random()*specks.length);
-  for(let i = 0; i < speck_count; i++){
-    let x = Math.random()*originalSize.width;
-    let y = Math.random()*originalSize.height;
+  const speck_count = Math.floor(Math.random() * specks.length);
+  const speck_offset = Math.floor(Math.random() * specks.length);
+  for (let i = 0; i < speck_count; i++) {
+    let x = Math.random() * originalSize.width;
+    let y = Math.random() * originalSize.height;
     image.composite(specks[(i + speck_offset) % specks.length], x, y, {
       mode: Jimp.BLEND_MULTIPLY,
       opacityDest: 1,
@@ -61,12 +61,12 @@ export const fn = async (png: string): Promise<Image> => {
 
   // Rotation and border
   image.background(0xffffffff)
-  image.rotate((Math.random() * 2) - 1);
+  image.rotate((Math.random() * 1.5) - 0.75);
   image.contain(originalSize.width, originalSize.height);
 
   // Noise
   image.scanQuiet(0, 0, image.bitmap.width, image.bitmap.height, (x, y, idx) => {
-    const skew = Math.floor(Math.random()*20) - 10
+    const skew = Math.floor(Math.random() * 20) - 10
     image.bitmap.data[idx] = Math.min(Math.max(image.bitmap.data[idx] + skew, 0), 255);
     image.bitmap.data[idx + 1] = Math.min(Math.max(image.bitmap.data[idx + 1] + skew, 0), 255);
     image.bitmap.data[idx + 2] = Math.min(Math.max(image.bitmap.data[idx + 2] + skew, 0), 255);

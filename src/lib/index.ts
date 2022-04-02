@@ -8,12 +8,13 @@ export interface Image {
   height: number,
 }
 
-export const process = async (file: File, quality: number = 300): Promise<string> => {
+export const process = async (file: File, quality: number = 150): Promise<string> => {
   console.log('Converting PDF to PNGs...')
   const pngs = await pdfToPngs(file, quality);
   console.log('Converting PNGs to JPGs and transforming...')
   const jpgs = await Promise.all(pngs.map(pngToJpg));
   console.log('Converting JPGs to PDF...')
   const pdf = await jpgsToPdf(jpgs);
+  console.log('Done!')
   return pdf;
 }

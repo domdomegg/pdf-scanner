@@ -7,13 +7,75 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.App {
+h1 {
+  text-align: center;
+}
+
+#drop_zone {
+  margin-top: -3rem;
+}
+
+#drop_zone>div {
+  margin-top: -5px;
   padding: 1rem;
+}
+
+.container {
+  padding: 2rem;
+  max-width: 50rem;
+  margin: 0 auto;
+}
+
+/* https://materialui.co/colors */
+
+.input-file {
+  background: #AB47BC;
+  color: white;
+  padding: 15px 20px;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: all 0.1s ease-in-out;
+}
+
+.input-file:hover {
+  background: #8E24AA;
+  transform: scale(1.05);
+}
+
+.input-file:active {
+  background: #6A1B9A;
+  transform: scale(.95);
+}
+
+.upload_error {
+  color: red
+}
+
+.upload_subtitle {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.loader {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #E1BEE7;
+  border-radius: 50%;
+  border-top-color: #AB47BC;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App {
+  text-align: center;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 2rem);
-}
-
-.App embed {
-  flex: 1
 }
