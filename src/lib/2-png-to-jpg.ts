@@ -2,11 +2,11 @@ import Jimp from 'jimp/es';
 import { Image } from '.';
 
 export const fn = async (pngs: string[], onStatusMessageUpdate: (msg: string) => void): Promise<Image[]> => {
-  onStatusMessageUpdate('Processing filters, 0/' + pngs.length + ' pages complete...')
+  onStatusMessageUpdate('Applying filters, 0/' + pngs.length + ' pages complete...')
   let pagesComplete = 0;
   return Promise.all(pngs.map((p) => pngToJpg(p).then((r) => {
     pagesComplete++;
-    onStatusMessageUpdate('Processing filters, ' + pagesComplete + '/' + pngs.length + ' pages complete...')
+    onStatusMessageUpdate('Applying filters, ' + pagesComplete + '/' + pngs.length + ' pages complete...')
     return r;
   })));
 }

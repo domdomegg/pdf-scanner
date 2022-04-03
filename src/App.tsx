@@ -68,12 +68,16 @@ function App() {
   }
 
   const dragEnterHandler = (ev: React.DragEvent) => {
-    setHovering(true);
+    if (acceptingFile) {
+      setHovering(true);
+    }
   }
 
   const dragLeaveHandler = (ev: React.DragEvent) => {
-    if (!ev.relatedTarget || !document.getElementById('drop_zone')?.contains(ev.relatedTarget as Node)) {
-      setHovering(false)
+    if (acceptingFile) {
+      if (!ev.relatedTarget || !document.getElementById('drop_zone')?.contains(ev.relatedTarget as Node)) {
+        setHovering(false)
+      }
     }
   }
 
@@ -103,7 +107,7 @@ function App() {
                 Choose file
                 <input type="file" accept=".pdf,application/pdf" onChange={(e) => onChange(e.target.files)} hidden />
               </label>}
-              {hovering && <p style={{ padding: '6.5px' }}>Drop your file here!</p>}
+              {hovering && <p style={{ padding: '6.2px' }}>Drop your file here!</p>}
               {error && <p className="upload_error">Error: {error}</p>}
               <p className="upload_subtitle">Documents don't leave your computer. Max 10 pages recommended.</p>
             </>}
