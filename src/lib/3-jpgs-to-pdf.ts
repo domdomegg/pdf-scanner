@@ -6,7 +6,9 @@ import { Writable } from 'stream'
 import fs from 'fs';
 import { Image } from '.';
 
-export const fn = async (jpgs: Image[]): Promise<string> => {
+export const fn = async (jpgs: Image[], onStatusMessageUpdate: (msg: string) => void): Promise<string> => {
+  onStatusMessageUpdate('Creating metadata...')
+
   fs.writeFileSync('data/Helvetica.afm', Helvetica)
   const doc = new PDFDocument({
     autoFirstPage: false,
@@ -28,13 +30,16 @@ export const fn = async (jpgs: Image[]): Promise<string> => {
 
   const stream = doc.pipe(dataUriStream)
 
-  for (const jpg of jpgs) {
+  jpgs.forEach((jpg, i) => {
+    onStatusMessageUpdate('Combining scans, ' + i + '/' + jpgs.length + ' pages complete...')
     doc
       .addPage({ margin: 0, size: [jpg.width, jpg.height] })
       .image(jpg.base64, 0, 0, { width: jpg.width, height: jpg.height })
-  }
+  })
 
   doc.end()
+
+  onStatusMessageUpdate('Rendering PDF...')
 
   return new Promise((resolve) => {
     stream.on('finish', () => {

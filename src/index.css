@@ -1,23 +1,31 @@
+/* https://materialui.co/colors */
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
-  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 #drop_zone {
   margin-top: -3rem;
+  margin-bottom: -4rem;
 }
 
-#drop_zone>div {
+#drop_zone > div {
   margin-top: -5px;
-  padding: 1rem;
+  margin-bottom: -5px;
+  padding: 3rem 1.5rem;
 }
 
 .container {
@@ -26,9 +34,7 @@ h1 {
   margin: 0 auto;
 }
 
-/* https://materialui.co/colors */
-
-.input-file {
+.button {
   background: #AB47BC;
   color: white;
   padding: 15px 20px;
@@ -36,20 +42,35 @@ h1 {
   cursor: pointer;
   border-radius: 0.25rem;
   transition: all 0.1s ease-in-out;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
 }
 
-.input-file:hover {
+.button:hover {
   background: #8E24AA;
   transform: scale(1.05);
 }
 
-.input-file:active {
+.button:active {
   background: #6A1B9A;
   transform: scale(.95);
 }
 
+.button-overwrite {
+  background: #90A4AE;
+}
+
+.button-overwrite:hover {
+  background: #607D8B;
+}
+
+.button-overwrite:active {
+  background: #455A64;
+}
+
 .upload_error {
-  color: red
+  color: #C62828;
 }
 
 .upload_subtitle {
@@ -67,6 +88,10 @@ h1 {
   animation: spin 1s ease-in-out infinite;
 }
 
+embed {
+  margin: 1rem 0;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -77,5 +102,5 @@ h1 {
   text-align: center;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 2rem);
+  min-height: 100vh;
 }
