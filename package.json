@@ -1,25 +1,28 @@
 {
-  "name": "fake-scanner",
-  "version": "0.1.0",
+  "name": "pdf-scanner",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^6.3.0",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
+    "@craco/craco": "^6.4.3",
+    "@testing-library/jest-dom": "^5.16.3",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^14.0.4",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/pdfkit": "^0.12.3",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
+    "brfs": "^2.0.2",
     "jimp": "^0.16.1",
     "mupdf-js": "^1.0.4",
     "pdfkit": "^0.13.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.1.2"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "^4.0.3",
+    "transform-loader": "^0.2.4",
+    "typescript": "^4.6.3"
   },
+  "homepage": ".",
   "scripts": {
     "start": "craco start",
     "build": "craco build",
@@ -43,11 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "arraybuffer-loader": "^1.0.8",
-    "brfs": "^2.0.2",
-    "raw-loader": "^4.0.2",
-    "transform-loader": "^0.2.4"
   }
 }

@@ -1,16 +1,14 @@
 import PDFDocument from 'pdfkit';
-// @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import Helvetica from '!!raw-loader!pdfkit/js/data/Helvetica.afm'
 import { Writable } from 'stream'
-import fs from 'fs';
 import { Image } from '.';
 
 export const fn = async (jpgs: Image[], onStatusMessageUpdate: (msg: string) => void): Promise<string> => {
   onStatusMessageUpdate('Creating metadata...')
 
-  fs.writeFileSync('data/Helvetica.afm', Helvetica)
+  // fs.writeFileSync('data/Helvetica.afm', Helvetica)
   const doc = new PDFDocument({
+    // @ts-ignore: waiting on https://github.com/DefinitelyTyped/DefinitelyTyped/pull/59675
+    font: '',
     autoFirstPage: false,
     pdfVersion: '1.4',
     info: {
