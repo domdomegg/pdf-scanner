@@ -17,15 +17,15 @@ export const pngToJpg = async (png: string): Promise<Image> => {
   const image = await Jimp.read(png);
   const originalSize = { width: image.getWidth(), height: image.getHeight() }
   const [black, ...specks] = await Promise.all([
-    await Jimp.read('/black.jpg'),
-    await Jimp.read('/speck_1.jpg'),
-    await Jimp.read('/speck_2.jpg'),
-    await Jimp.read('/speck_3.jpg'),
-    await Jimp.read('/speck_4.jpg'),
-    await Jimp.read('/speck_5.jpg'),
-    await Jimp.read('/speck_6.jpg'),
-    await Jimp.read('/speck_7.jpg'),
-    await Jimp.read('/speck_8.jpg'),
+    await Jimp.read('black.jpg'),
+    await Jimp.read('speck_1.jpg'),
+    await Jimp.read('speck_2.jpg'),
+    await Jimp.read('speck_3.jpg'),
+    await Jimp.read('speck_4.jpg'),
+    await Jimp.read('speck_5.jpg'),
+    await Jimp.read('speck_6.jpg'),
+    await Jimp.read('speck_7.jpg'),
+    await Jimp.read('speck_8.jpg'),
   ]);
 
   // image.color([ { apply: 'saturate' as any, params: [-30] }])
