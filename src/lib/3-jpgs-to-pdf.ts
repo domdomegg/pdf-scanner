@@ -5,10 +5,7 @@ import { Image } from '.';
 export const fn = async (jpgs: Image[], onStatusMessageUpdate: (msg: string) => void): Promise<string> => {
   onStatusMessageUpdate('Creating metadata...')
 
-  // fs.writeFileSync('data/Helvetica.afm', Helvetica)
   const doc = new PDFDocument({
-    // @ts-ignore: waiting on https://github.com/DefinitelyTyped/DefinitelyTyped/pull/59675
-    font: '',
     autoFirstPage: false,
     pdfVersion: '1.4',
     info: {
@@ -16,7 +13,9 @@ export const fn = async (jpgs: Image[], onStatusMessageUpdate: (msg: string) => 
       Creator: 'Xerox AltaLink C8045',
       CreationDate: new Date(),
       ModDate: new Date(),
-    }
+    },
+    // Explicitly specify no default font so none is loaded, as we don't need it
+    font: '',
   });
 
   const dataUriStream = new Writable();

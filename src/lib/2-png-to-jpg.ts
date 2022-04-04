@@ -46,6 +46,7 @@ export const pngToJpg = async (png: string): Promise<Image> => {
       [1, 1, 1],
       [1, 1, 1],
       [1, 1, 1],
+      // TODO: remove ts-ignore after https://github.com/oliver-moran/jimp/pull/1080
       // @ts-ignore
     ], Jimp.EDGE_EXTEND);
   black.resize(originalSize.width, originalSize.height)
