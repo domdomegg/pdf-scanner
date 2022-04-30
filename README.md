@@ -1,4 +1,4 @@
-# pdf-scanner
+# pdf-scanner [(view live)](https://domdomegg.github.io/pdf-scanner/)
 
 Hate having to print out, ink sign and scan documents for pointless bureaucratic procedures? Disappointed by the other services that claim to do this, but don't do it very well? Well, look no further, pdf-scanner gives you high quality fake scans of PDFs.
 
