@@ -1,5 +1,4 @@
 import PDFDocument from 'pdfkit';
-import { Writable } from 'stream'
 import { Image } from '.';
 
 export const fn = async (jpgs: Image[], onStatusMessageUpdate: (msg: string) => void): Promise<string> => {
@@ -18,14 +17,11 @@ export const fn = async (jpgs: Image[], onStatusMessageUpdate: (msg: string) => 
     font: '',
   });
 
-  const dataUriStream = new Writable();
-  const chunks: Uint8Array[] = []
-  dataUriStream._write = function (chunk: Uint8Array, encoding, done) {
-    chunks.push(chunk);
-    done();
-  };
 
-  const stream = doc.pipe(dataUriStream)
+  const chunks: Uint8Array[] = []
+  doc.on('data', (a) => {
+    chunks.push(a)
+  })
 
   jpgs.forEach((jpg, i) => {
     onStatusMessageUpdate('Combining scans, ' + i + '/' + jpgs.length + ' pages complete...')
@@ -34,13 +30,14 @@ export const fn = async (jpgs: Image[], onStatusMessageUpdate: (msg: string) => 
       .image(jpg.base64, 0, 0, { width: jpg.width, height: jpg.height })
   })
 
+  const p = new Promise<string>((resolve) => {
+    doc.on('end', () => {
+      resolve(URL.createObjectURL(new Blob(chunks, { type: 'application/pdf' })))
+    })
+  });
   doc.end()
 
   onStatusMessageUpdate('Rendering PDF...')
 
-  return new Promise((resolve) => {
-    stream.on('finish', () => {
-      resolve(URL.createObjectURL(new Blob(chunks, { type: 'application/pdf' })))
-    })
-  });
+  return p;
 }
