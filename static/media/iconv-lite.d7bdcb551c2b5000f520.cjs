@@ -1,1 +1,0 @@
-try{module.exports=require("iconv-lite")}catch(err){}
