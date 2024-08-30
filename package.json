@@ -16,7 +16,7 @@
     "brfs": "^2.0.2",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
-    "jimp": "^0.16.1",
+    "jimp": "^0.22.12",
     "mupdf-js": "^1.0.4",
     "path-browserify": "^1.0.1",
     "pdfkit": "^0.13.0",
