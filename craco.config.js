@@ -60,6 +60,7 @@ module.exports = {
           assert: require.resolve("assert/"),
           fs: false,
           crypto: false,
+          'process/browser': require.resolve('process/browser'),
         }
       }
     }
