@@ -3,7 +3,9 @@
 
 name: CI/CD
 
-on: push
+on:
+  push:
+  pull_request:
 
 permissions:
   contents: write
@@ -33,13 +35,13 @@ jobs:
       - name: Test
         run: npm run test --if-present
       - name: Upload artifact
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
   deploy:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     needs: ci
     runs-on: ubuntu-latest
     timeout-minutes: 10
